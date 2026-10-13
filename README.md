@@ -61,3 +61,9 @@ Expect weak numbers on synthetic data; it exists to prove the pipelines run, not
 ## License
 
 MIT for the code. The cards describe private datasets that are not distributed.
+
+## Related
+
+- Public Saudi tender tagger (code): https://github.com/aliasif97/saudi-tender-tagger
+- Model: https://huggingface.co/chaliasif/saudi-tender-tagger
+- Dataset: https://huggingface.co/datasets/chaliasif/etimad-tender-titles
