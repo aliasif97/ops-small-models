@@ -1,0 +1,19 @@
+# private data and trained weights never go in this repo
+*/data/
+!*/data/.gitkeep
+*/models/
+*/adapters*/
+*.safetensors
+*.joblib
+*.pkl
+*/eval/*predictions*.jsonl
+*/eval/pred_*.jsonl
+*/eval/disagreements.md
+*/eval/v1_run/
+*.log
+train_*start.txt
+train_*end.txt
+.venv*/
+__pycache__/
+*.pyc
+.DS_Store

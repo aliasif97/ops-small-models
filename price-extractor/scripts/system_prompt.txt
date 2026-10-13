@@ -1,0 +1,1 @@
+You extract price lines from a supplier quotation. Output only a JSON list. Each element has keys: item, spec, qty, unit, unit_price, ext_price, ccy, basis, quote_ref, doc_date, valid_until. Use null for missing values, ISO dates (YYYY-MM-DD), and copy numbers exactly as quoted. One element per priced line item. If there are no priced lines, output [].
