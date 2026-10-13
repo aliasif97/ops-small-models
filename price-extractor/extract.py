@@ -9,20 +9,22 @@ sys.path.insert(0,HERE+"/scripts")
 from build_data import get_text, clean, truncate, price_seen
 from score import parse, salvage
 MODEL="mlx-community/Qwen2.5-1.5B-Instruct-4bit"
+SHIPPED_ADAPTER=HERE+"/adapters"   # v1, 400 iterations (v2 was tested and was worse, see MODEL-CARD.md)
+REPETITION_PENALTY=1.1
 
 def extract(path, use_adapter=True, tokens=2000, model_tok=None):
     from mlx_lm import load, generate
-    from mlx_lm.sample_utils import make_sampler
+    from mlx_lm.sample_utils import make_sampler, make_logits_processors
     text=get_text(path,None)
     if text is None: return {"records":[],"valid_json":False,"grounded_fraction":0.0,"needs_cloud_fallback":True,"error":"unsupported or unreadable file"}
     text=clean(text)
     if len(re.findall(r"[A-Za-z0-9]",text))<80:
         return {"records":[],"valid_json":False,"grounded_fraction":0.0,"needs_cloud_fallback":True,"error":"no text layer (scanned/image), use OCR or cloud"}
     text=truncate(text,tokens)
-    model,tok=model_tok or load(MODEL, adapter_path=(HERE+"/adapters" if use_adapter else None))
+    model,tok=model_tok or load(MODEL, adapter_path=(SHIPPED_ADAPTER if use_adapter else None))
     sysmsg=open(HERE+"/scripts/system_prompt.txt").read().strip()
     prompt=tok.apply_chat_template([{"role":"system","content":sysmsg},{"role":"user","content":text}],tokenize=False,add_generation_prompt=True)
-    raw=generate(model,tok,prompt=prompt,max_tokens=2048,sampler=make_sampler(temp=0.0))
+    raw=generate(model,tok,prompt=prompt,max_tokens=2048,sampler=make_sampler(temp=0.0),logits_processors=make_logits_processors(repetition_penalty=REPETITION_PENALTY))
     recs=parse(raw)
     if recs is None:
         part=salvage(raw)  # runaway/truncated output: keep complete lines but always flag for cloud fallback

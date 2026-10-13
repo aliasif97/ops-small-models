@@ -15,7 +15,7 @@ f"Test set: {R['base']['docs']} documents, {R['base']['gold_lines']} catalogue l
 f"v1 = final adapter after 400 iterations (adapters/). v2 = best-validation checkpoint of a 120 iteration run, iteration {sel['best_iter']} (adapters-v2/best/, validation loss {sel['val_loss']}).\n",
 "Match rule: item token-F1 >= 0.6 and unit_price within 1%, one-to-one. Field exact match is conditional on a line already matching.\n",
 "## Main table (strict scoring: invalid JSON counts as zero lines)\n","| Metric | Base | v1 (400 it) | v2 (best ckpt) |\n|---|---|---|---|"]
-def row(n,f): L.append(f"| {n} | "+" | ".join(f(R[t]) for t in tags)+" |")
+def row(n,f): L.append(f"| {n} | "+" | ".join(str(f(R[t])) for t in tags)+" |")
 row("Valid JSON rate",lambda r:pct(r['valid_rate'])); row("Invalid JSON documents",lambda r:f"{r['docs']-r['valid_json']}/{r['docs']}")
 row("Predicted lines",lambda r:r['pred_lines']); row("Matched lines",lambda r:f"{r['matched']}/{r['gold_lines']}")
 row("Line recall",lambda r:pct(r['recall'])); row("Line precision",lambda r:pct(r['precision']))

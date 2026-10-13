@@ -14,7 +14,7 @@ Companion to the applied-AI case-study pack.
 | Folder | Model | Result on the untouched test set |
 |---|---|---|
 | `thread-classifier/` | Email-thread role classifier (7 roles, English and Arabic). TF-IDF + logistic regression vs a fine-tuned `intfloat/multilingual-e5-small`. | The simple model won: accuracy 0.879, macro-F1 0.794 (encoder 0.818 / 0.613 on 805 training rows). Shipped with a 0.90 confidence gate: 48% of threads accepted at 99.1% agreement, the rest go to the cloud model. 0.56 ms per thread on CPU, 1.7 MB. |
-| `price-extractor/` | Supplier quotation text to structured price lines. LoRA adapter on `mlx-community/Qwen2.5-1.5B-Instruct-4bit`, trained with `mlx_lm` on a Mac. | v1 (400 iterations): line recall 24.3%, precision 76.6%, every matched price exact, vs 0.7% / 2.5% zero-shot. Overfit after about 100 iterations; v2 (120 iterations, checkpoints) results are in `price-extractor/eval/RESULTS.md`. 20 MB adapter, $0 per document, nothing leaves the machine. |
+| `price-extractor/` | Supplier quotation text to structured price lines. LoRA adapter on `mlx-community/Qwen2.5-1.5B-Instruct-4bit`, trained with `mlx_lm` on a Mac. | v1 (400 iterations, shipped): line recall 31.8%, precision 79.7%, every matched unit price exact, vs 0.7% / 1.3% zero-shot. A shorter v2 (120 iterations, checkpoint chosen by validation loss) scored 8.1% recall and was rejected; loss is not recall. Valid JSON 70%, weak on quotes with 13 or more lines. 20 MB adapter, $0 per document, nothing leaves the machine. |
 
 The lesson that matters is in the first row: with 805 silver-labelled rows, n-grams beat the
 encoder, so the n-grams shipped. The second row is a partial win reported as a partial win.

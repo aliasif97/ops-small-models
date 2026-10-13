@@ -6,7 +6,7 @@ From a terminal:
     cd price-extractor
     ../.venv-mlx/bin/python extract.py "/path/to/supplier-quote.pdf"
 
-Takes 5 to 25 seconds (first call also loads the model). It prints JSON: records (the price lines), valid_json, grounded_fraction and needs_cloud_fallback. Works on PDF, xlsx and txt. Scanned PDFs return an error saying no text layer. Always read the lines against the PDF before using a price: today it finds about a quarter of the lines on a typical document, with about three in four of the lines it does return being right.
+Takes 5 to 25 seconds (first call also loads the model). It prints JSON: records (the price lines), valid_json, grounded_fraction and needs_cloud_fallback. Works on PDF, xlsx and txt. Scanned PDFs return an error saying no text layer. Always read the lines against the PDF before using a price: today it finds about a third of the catalogue lines, and about four in five of the lines it returns are right.
 
 ## Pricebook refresh: local first, cloud on low confidence
 The refresh currently sends every new document to the cloud model. Suggested order, per document:
@@ -16,4 +16,4 @@ The refresh currently sends every new document to the cloud model. Suggested ord
 3. Otherwise send the document to the cloud model as today, and keep its output.
 4. Log which path produced each record (a field such as extractor=local or cloud) so the two can be compared and the adapter retrained on cloud-corrected rows.
 
-Expected effect with the current adapter: small single-line quotes (the majority of documents) can stay local; long tables will mostly fall back to the cloud. Do not change the pricebook code until the adapter's recall is raised; this note is a design only, nothing in /Users/aliasif/apps/nls-pricebook was touched.
+Expected effect with the current adapter: small single-line quotes (the majority of documents) can stay local; long tables will mostly fall back to the cloud. Do not change the pricebook code until the adapter's recall is raised; this note is a design only, nothing in the company pricebook folder (PRICEBOOK_ROOT) was touched.

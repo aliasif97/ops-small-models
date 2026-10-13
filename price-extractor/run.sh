@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rebuild data, (optionally) train v2, pick the best checkpoint, evaluate base/v1/v2, write eval/RESULTS.md.
 # SKIP_TRAIN=1 ./run.sh   reuses the existing adapters-v2/ checkpoints and train_v2.log (no training).
-# Inputs come from PRICEBOOK_CATALOG and PRICEBOOK_ROOT (see README). Read only on inputs.
+# Read only on the company pricebook folder (PRICEBOOK_ROOT). No git.
 set -euo pipefail
 cd "$(dirname "$0")"
 PY=../.venv-mlx/bin/python
